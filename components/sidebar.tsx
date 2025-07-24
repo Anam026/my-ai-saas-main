@@ -17,7 +17,7 @@ const routes = [
         label : "Dashboard",
         icon: LayoutDashboard,
         href: "/dashboard",
-        color: "text-sky-500",
+        color: "text-blue-500",
     },
 ];
 
@@ -42,9 +42,12 @@ const Sidebar = () => {
                         <Link
                             href={route.href}
                             key={route.href}
+                            className="text-sm group flex p-3 w-full justify-start font-medium
+                            cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition"
                         >
                             <div className="flex items-center flex-1">
-                                <route.icon className={cn("h-5 w-5 mr-3", route.color)} />
+                                <route.icon className={cn("h-6 w-6 mr-3", route.color)} />
+                                {route.label}
                             </div>
                         </Link>
                     ))}
