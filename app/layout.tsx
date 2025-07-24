@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ak AI",
+  title: "AK AIverse",
   description: "AI Platform",
 };
 
