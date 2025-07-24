@@ -1,5 +1,5 @@
 import React from 'react';
-
+//TO CENTER THE AUTH PAGES
 interface AuthLayoutProps {
   children: React.ReactNode;
 }
