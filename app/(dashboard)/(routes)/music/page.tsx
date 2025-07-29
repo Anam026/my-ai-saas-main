@@ -107,9 +107,12 @@ const MusicPage = () => {
             <Empty label="No music generated." />
           )}
 
-          <div>
-            Music will be Generated here
-          </div>
+          {music &&
+            music.map((url, idx) => (
+              <audio key={idx} controls className="w-full mt-4">
+                <source src={url} />
+              </audio>
+           ))}
           
           
         </div>
