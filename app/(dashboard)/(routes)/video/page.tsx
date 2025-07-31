@@ -20,7 +20,7 @@ import { formSchema } from "./constants";
 
 const VideoPage = () => {
   const router = useRouter();
-  const [video, setVideo] = useState<string | null>(null); // changed to string
+  const [video, setVideo] = useState<string | null>(null); 
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -35,7 +35,7 @@ const VideoPage = () => {
     try {
       setVideo(null);
       const response = await axios.post('/api/video', values);
-      setVideo(response.data[0]); // assuming it's an array with at least one video URL
+      setVideo(response.data[0]); 
       form.reset();
     } catch (error: any) {
       console.log(error);

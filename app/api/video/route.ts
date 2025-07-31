@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       input: { prompt }
     });
 
-    return NextResponse.json([output]); 
+    return NextResponse.json([output]); // wrap in array for your frontend
   } catch (error: unknown) {
     console.error("[VIDEO_ERROR]", error);
     return new NextResponse("Internal Error", { status: 500 });
