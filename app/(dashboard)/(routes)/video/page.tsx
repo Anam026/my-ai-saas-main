@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { Music } from "lucide-react";
+import { VideoIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -14,15 +14,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 
 import { Loader } from "@/components/loader";
-
 import { Empty } from "@/components/empty";
 
 import { formSchema } from "./constants";
 
-
-const MusicPage = () => {
+const VideoPage = () => {
   const router = useRouter();
-  const [music, setMusic] = useState<string[] | null>(null); 
+  const [video, setVideo] = useState<string | null>(null); // changed to string
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -32,15 +30,12 @@ const MusicPage = () => {
   });
 
   const isLoading = form.formState.isSubmitting;
-  
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setMusic(null);
-
-      const response = await axios.post('/api/music', values);
-
-      setMusic(response.data.audio);
-
+      setVideo(null);
+      const response = await axios.post('/api/video', values);
+      setVideo(response.data[0]); // assuming it's an array with at least one video URL
       form.reset();
     } catch (error: any) {
       console.log(error);
@@ -52,11 +47,11 @@ const MusicPage = () => {
   return ( 
     <div>
       <Heading
-        title="Music Generation"
-        description="Turn your prompt into music."
-        icon={Music}
-        iconColor="text-emerald-500"
-        bgColor="bg-emerald-500/10"
+        title="Video Generation"
+        description="Turn your prompt into video."
+        icon={VideoIcon}
+        iconColor="text-orange-700"
+        bgColor="bg-orange-700/10"
       />
       <div className="px-4 lg:px-8">
         <div>
@@ -84,41 +79,48 @@ const MusicPage = () => {
                       <Input
                         className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                         disabled={isLoading} 
-                        placeholder="Piano solo" 
+                        placeholder="A video of a cat with a hat." 
                         {...field}
                       />
                     </FormControl>
                   </FormItem>
                 )}
               />
-              <Button className="col-span-12 lg:col-span-2 w-full" type="submit" disabled={isLoading} size="icon">
+              <Button 
+                className="col-span-12 lg:col-span-2 w-full" 
+                type="submit" 
+                disabled={isLoading} 
+                size="icon"
+              >
                 Generate
               </Button>
             </form>
           </Form>
         </div>
+
         <div className="space-y-4 mt-4">
           {isLoading && (
             <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
               <Loader />
             </div>
           )}
-          {!music && !isLoading && (
-            <Empty label="No music generated." />
+
+          {!video && !isLoading && (
+            <Empty label="No Video generated." />
           )}
 
-          {music &&
-            music.map((url, idx) => (
-              <audio key={idx} controls className="w-full mt-4">
-                <source src={url} />
-              </audio>
-           ))}
-          
-          
+          {video && (
+            <video 
+              className="w-full aspect-video mt-8 rounded-lg border bg-black" 
+              controls
+            >
+              <source src={video} />
+            </video>
+          )}
         </div>
       </div>
     </div>
-   );
+  );
 }
- 
-export default MusicPage;
+
+export default VideoPage;
